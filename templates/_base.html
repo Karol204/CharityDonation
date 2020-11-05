@@ -12,10 +12,14 @@
   <body>
     <header class="header--main-page">
       <nav class="container container--70">
+          {% if user.is_authenticated %}
+            <p>Hi {{ user.username }}</p>
+          {% else %}
         <ul class="nav--actions">
-          <li><a href="" class="btn btn--small btn--without-border">Zaloguj</a></li>
+          <li><a href="{% url 'login' %}" class="btn btn--small btn--without-border">Zaloguj</a></li>
           <li><a href="#" class="btn btn--small btn--highlighted">Załóż konto</a></li>
         </ul>
+          {% endif %}
 
         <ul>
           <li><a href="" class="btn btn--without-border active">Start</a></li>
