@@ -37,8 +37,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
 
-    #local app
+    # third part
+    'crispy_forms',
+    'allauth',
+    'allauth.account',
+
+    # local app
     'accounts',
     'pages',
 ]
@@ -129,5 +135,23 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),)
 
+SITE_ID = 1
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+LOGIN_REDIRECT_URL = 'home'
+ACCOUNT_LOGOUT_REDIRECT = 'home'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend'
+)
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+ACCOUNT_USERNAME_REQUIRED = False
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_UNIQUE_EMAIL = True
+ACCOUNT_LOGOUT_ON_GET = True

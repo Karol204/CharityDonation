@@ -1,5 +1,7 @@
 {% extends '_base.html' %}
+{% load crispy_forms_tags %}
 {% load static %}
+
 
 
 
@@ -10,11 +12,11 @@
       <form method="post">
           {% csrf_token %}
         <div class="form-group">
-            {{ form.username }}
+            {{ form|crispy }}
 {#          <input type="email" name="email" placeholder="Email" />#}
         </div>
         <div class="form-group">
-            {{ form.password }}
+{#            {{ form|crispy }}#}
 {#          <input type="password" name="password" placeholder="Hasło" />#}
           <a href="#" class="btn btn--small btn--without-border reset-password">Przypomnij hasło</a>
         </div>
