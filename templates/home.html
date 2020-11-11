@@ -73,7 +73,7 @@
         <p>W naszej bazie znajdziesz listę zweryfikowanych Fundacji, z którymi współpracujemy. Możesz sprawdzić czym się zajmują, komu pomagają i czego potrzebują.</p>
 
         <ul class="help--slides-items">
-            {% for fund in all_fund %}
+            {% for fund in fund_page %}
           <li>
             <div class="col">
               <div class="title">Fundacja "{{ fund.name }}e"</div>
@@ -94,13 +94,15 @@
 
 
         </ul>
-        <!-- Pagination
-        <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
-        </ul>
-        -->
+      <ul class="help--slides-pagination">
+            {% for i in fund_page.paginator.page_range %}
+    {% if fund_page.number == i %}
+        <a href="?page={{ i }}&#help" class="btn btn--small btn--without-border active" style="margin: 0 1vw">{{ i }}</a>
+    {% else %}
+        <a href="?page={{ i }}&#help" class="btn btn--small btn--without-border" style="margin: 0 1vw">{{ i }}</a>
+    {% endif %}
+      {% endfor %}
+      </ul>
       </div>
 
 
@@ -111,7 +113,7 @@
           quos suscipit corporis!
         </p>
         <ul class="help--slides-items">
-                  {% for org in all_org %}
+                  {% for org in org_page.object_list %}
           <li>
             <div class="col">
               <div class="title">Organizacja: "{{ org.name }}e"</div>
@@ -130,15 +132,17 @@
             {% endfor %}
         </ul>
 
-        <!-- Pagination
+
         <ul class="help--slides-pagination">
-          <li><a href="#" class="btn btn--small btn--without-border active" data-page="1">1</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="2">2</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="3">3</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="4">4</a></li>
-          <li><a href="#" class="btn btn--small btn--without-border" data-page="5">5</a></li>
+            {% for i in org_page.paginator.page_range %}
+    {% if org_page.number == i %}
+        <a href="?page={{ i }}&#help" class="btn btn--small btn--without-border active" style="margin: 0 1vw">{{ i }}</a>
+    {% else %}
+        <a href="?page={{ i }}&#help" class="btn btn--small btn--without-border" style="margin: 0 1vw">{{ i }}</a>
+    {% endif %}
+{% endfor %}
         </ul>
-        -->
+
       </div>
 
       <!-- SLIDE 3 -->
