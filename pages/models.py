@@ -38,3 +38,8 @@ class Donation(models.Model):
 
     def __str__(self):
         return f'{self.user} - {self.pick_up_date}'
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
+    first_name = models.CharField(max_length=50)
+    last_name = models.CharField(max_length=50)
