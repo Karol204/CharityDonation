@@ -5,6 +5,8 @@ from django.views import View
 from django.views.generic import TemplateView
 from .models import Donation, Institution, UserProfile
 from django.core.paginator import Paginator
+from pages.forms import UserProfilForm
+from django.contrib.auth import get_user_model
 # Create your views here.
 
 class LandingView(View):
@@ -44,12 +46,24 @@ class LandingView(View):
         if request.user.is_authenticated:
             user_name = request.user.first_name
             if user_name != "":
-
                 return render(request, 'home.html', context)
-
             else:
-                return render(request, 'profil.html')
+                return redirect('/profil/#form')
         else:
             return render(request, 'home.html', context)
+
+class ProfilView(View):
+
+    def get(self, request):
+        form = UserProfilForm
+        context = { 'form':form}
+        return render(request, 'profil.html', context)
+    def post(self, request):
+        form = UserProfilForm(request.POST)
+        if form.is_valid():
+            profil = form.save(commit=False)
+            profil.user = request.user
+            profil.save()
+            return redirect('home')
 
 
