@@ -44,8 +44,9 @@ class LandingView(View):
         }
 
         if request.user.is_authenticated:
-            user_name = request.user.first_name
-            if user_name != "":
+            user_id = request.user.id
+            profil = UserProfile.objects.filter(user_id=user_id)
+            if profil:
                 return render(request, 'home.html', context)
             else:
                 return redirect('/profil/#form')
