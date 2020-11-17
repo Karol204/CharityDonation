@@ -1,0 +1,7 @@
+{% extends '_base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+    <h1 id="personal_data">Witaj na swoim profilu.</h1>
+
+{% endblock content %}

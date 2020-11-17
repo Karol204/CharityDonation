@@ -53,12 +53,12 @@ class LandingView(View):
         else:
             return render(request, 'home.html', context)
 
-class ProfilView(View):
+class ProfilForm(View):
 
     def get(self, request):
         form = UserProfilForm
         context = { 'form':form}
-        return render(request, 'profil.html', context)
+        return render(request, 'profilForm.html', context)
     def post(self, request):
         form = UserProfilForm(request.POST)
         if form.is_valid():
@@ -68,3 +68,13 @@ class ProfilView(View):
             return redirect('home')
 
 
+class ProfilPage(View):
+
+    def get(self, request):
+        user_id = request.user.id
+        profil = UserProfile.objects.filter(user_id=user_id)
+        context={}
+        if profil:
+            return render(request, 'profil.hmtl', context)
+        else:
+            return redirect('/profil/#form')
