@@ -1,6 +1,9 @@
 from django.test import TestCase
 from django.contrib.auth import get_user_model
 # Create your tests here.
+from django.urls import reverse, reverse_lazy
+
+from accounts.forms import CustomUserCreationForm
 
 
 class CustomUserTest(TestCase):
@@ -30,3 +33,26 @@ class CustomUserTest(TestCase):
         self.assertTrue(user.is_active)
         self.assertTrue(user.is_superuser)
         self.assertTrue(user.is_staff)
+
+class SignUpTest(TestCase):
+
+    username = 'newtestuser'
+    email = 'newtestuser@email.com'
+
+    def setUp(self):
+        url = reverse('account_signup')
+        self.response = self.client.get(url)
+
+    def test_signup_template(self):
+        self.assertEqual(self.response.status_code, 200)
+        self.assertTemplateUsed(self.response, 'account/signup.html')
+
+    def test_signup_form(self):
+        new_user = get_user_model().objects.create_user(self.username, self.email)
+        self.assertEqual(get_user_model().objects.all().count(), 1)
+        self.assertEqual(get_user_model().objects.all()[0].username, self.username)
+        self.assertEqual(get_user_model().objects.all()[0].email, self.email)
+
+        form = self.response.context.get('form')
+        self.assertIsInstance(form, CustomUserCreationForm)
+        self.assertContains(self.response, 'csfrmiddlewaretoken')
