@@ -56,3 +56,17 @@ class SignUpTest(TestCase):
         form = self.response.context.get('form')
         self.assertIsInstance(form, CustomUserCreationForm)
         self.assertContains(self.response, 'csfrmiddlewaretoken')
+
+class LoginTest(TestCase):
+
+    username = 'newtestuser'
+    email = 'newtestuser@email.com'
+
+    def setUp(self):
+        url = reverse('account_login')
+        self.response = self.client.get(url)
+
+    def test_signup_template(self):
+        self.assertEqual(self.response.status_code, 200)
+        self.assertTemplateUsed(self.response, 'account/login.html')
+
