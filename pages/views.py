@@ -1,12 +1,9 @@
-
-from django.contrib.auth import get_user_model
-from django.shortcuts import render, reverse, redirect
+from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import TemplateView
 from .models import Donation, Institution, UserProfile
 from django.core.paginator import Paginator
 from pages.forms import UserProfilForm
-from django.contrib.auth import get_user_model
+
 # Create your views here.
 
 class LandingView(View):
@@ -73,8 +70,8 @@ class ProfilPage(View):
     def get(self, request):
         user_id = request.user.id
         profil = UserProfile.objects.filter(user_id=user_id)
-        context={}
+        context = {'profil': profil}
         if profil:
-            return render(request, 'profil.hmtl', context)
+            return render(request, 'profil.html', context)
         else:
             return redirect('/profil/#form')

@@ -3,5 +3,10 @@
 {% block content %}
 
     <h1 id="personal_data">Witaj na swoim profilu.</h1>
+    <h2> Imie:
+        {% for name in profil %}
+            {{ name.first_name }}</h2>
 
+    <h2> Nazwisko: {{ name.last_name }}</h2>
+        {% endfor %}
 {% endblock content %}
