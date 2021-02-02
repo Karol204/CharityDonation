@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from .models import Donation, Institution, UserProfile
+from .models import Donation, Institution, UserProfile, Category
 from django.core.paginator import Paginator
 from pages.forms import UserProfilForm
 
@@ -75,3 +75,41 @@ class ProfilPage(View):
             return render(request, 'profil.html', context)
         else:
             return redirect('/profil/#form')
+
+
+class AddDonationPage(View):
+
+    def get(self, request):
+        categories = Category.objects.all()
+        institutions = Institution.objects.all()
+        ctx = {
+            'categories': categories,
+            'institutions': institutions,
+        }
+        return render(request, 'form.html', ctx)
+
+
+def get_inst_by_cat(request):
+    cat_id = request.GET.get('cat_id')
+    if cat_id is None:
+        institutions = Institution.objects.all()
+    else:
+        categories = Category.objects.get(pk=cat_id)
+        institutions = Institution.objects.filter(category_of_items=categories)
+    return render(request, 'rest_list_view.html', {'institutions':institutions})
+
+def get_form_info(request):
+    # stuff = request.GET.get('stuff')
+    bags_quantity = request.GET.get('bags_quantity')
+    # institution = request.GET.get('institution')
+    street = request.GET.get('street')
+    city = request.GET.get('city')
+    post_code = request.GET.get('post_code')
+    phone = request.GET.get('phone')
+    date = request.GET.get('date')
+    time = request.GET.get('time')
+    comments = request.GET.get('comments')
+    return render(request, 'rest_form_info.html', {"bags_quantity": bags_quantity, "street": street, "city":city,
+                                                   "post_code": post_code, "phone":phone, "date":date, "time":time,
+                                                   "comments":comments})
+
