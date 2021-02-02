@@ -1,0 +1,12 @@
+   {% for institution in institutions %}
+              <label>
+                <input type="radio" name="organization" value="old" data-text="{{ institution.name }}"/>
+                <span class="checkbox radio"></span>
+                <span class="description">
+                  <div class="title">{{ institution.name }}</div>
+                  <div class="subtitle">
+                    Cel i misja: {{ institution.description }}
+                  </div>
+                </span>
+              </label>
+                              {% endfor %}

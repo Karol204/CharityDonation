@@ -1,0 +1,35 @@
+          <div class="form-section">
+                <h4>Oddajesz:</h4>
+                <ul id="showend">
+                  <li>
+                    <span class="summary--text">{{ bags_quantity }}</span>
+                    <span class="icon icon-bag"></span>
+
+                  </li>
+                  <li>
+{#                    <span class="icon icon-hand"></span>#}
+{#                    <span class="summary--text">Dla fundacji "Mam marzenie" w Warszawie</span>#}
+                  </li>
+                </ul>
+              </div>
+
+              <div class="form-section form-section--columns">
+                <div class="form-section--column">
+                  <h4>Adres odbioru:</h4>
+                  <ul>
+                    <li>{{ street }}</li>
+                    <li>{{ city }}</li>
+                    <li>{{ post_code }}</li>
+                    <li>{{ phone }}</li>
+                  </ul>
+                </div>
+
+                <div class="form-section--column">
+                  <h4>Termin odbioru:</h4>
+                  <ul>
+                    <li>{{ date}}</li>
+                    <li>{{ time}}</li>
+                    <li>{{ comments }}</li>
+                  </ul>
+                </div>
+              </div>
