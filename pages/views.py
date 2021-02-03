@@ -108,7 +108,8 @@ def get_form_info(request):#
         new_array_for_stuff.append(temporary_stuff)
 
     bags_quantity = request.GET.get('bags_quantity')
-    institution = request.GET.get('institution')
+    inst = request.GET.get('institution')
+    institution = Institution.objects.get(pk=inst)
     street = request.GET.get('street')
     city = request.GET.get('city')
     post_code = request.GET.get('post_code')

@@ -1,6 +1,6 @@
    {% for institution in institutions %}
-              <label>
-                <input type="radio" name="organization" value="old" data-text="{{ institution.name }}"/>
+              <label class="org" data-id="{{ institution.id }}">
+                <input type="radio" name="organization" class="iii" value="{{ institution.id }}" data-text="{{ institution.name }}"/>
                 <span class="checkbox radio"></span>
                 <span class="description">
                   <div class="title">{{ institution.name }}</div>
