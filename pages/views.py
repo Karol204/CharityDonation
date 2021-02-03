@@ -96,12 +96,19 @@ def get_inst_by_cat(request):
     else:
         categories = Category.objects.get(pk=cat_id)
         institutions = Institution.objects.filter(category_of_items=categories)
-    return render(request, 'rest_list_view.html', {'institutions':institutions})
+    return render(request, 'rest_list_view.html', {'institutions': institutions})
 
-def get_form_info(request):
-    # stuff = request.GET.get('stuff')
+def get_form_info(request):#
+
+    new_array_for_stuff = []
+    stuff_id_arr = request.GET.get('stuff_id_arr')
+    separated_id = stuff_id_arr.split(',', )
+    for stuff in separated_id:
+        temporary_stuff = Category.objects.get(pk=stuff)
+        new_array_for_stuff.append(temporary_stuff)
+
     bags_quantity = request.GET.get('bags_quantity')
-    # institution = request.GET.get('institution')
+    institution = request.GET.get('institution')
     street = request.GET.get('street')
     city = request.GET.get('city')
     post_code = request.GET.get('post_code')
@@ -109,7 +116,10 @@ def get_form_info(request):
     date = request.GET.get('date')
     time = request.GET.get('time')
     comments = request.GET.get('comments')
+    if comments == '':
+        comments = 'Brak'
     return render(request, 'rest_form_info.html', {"bags_quantity": bags_quantity, "street": street, "city":city,
                                                    "post_code": post_code, "phone":phone, "date":date, "time":time,
-                                                   "comments":comments})
+                                                   "comments":comments, 'institution': institution,
+                                                   "new_array_for_stuff": new_array_for_stuff})
 

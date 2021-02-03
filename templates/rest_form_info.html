@@ -2,13 +2,18 @@
                 <h4>Oddajesz:</h4>
                 <ul id="showend">
                   <li>
-                    <span class="summary--text">{{ bags_quantity }}</span>
-                    <span class="icon icon-bag"></span>
+                      <span class="icon icon-bag"></span>
+                    <span class="summary--text">{{ bags_quantity }}
+                        {% for stuff in new_array_for_stuff %}
+
+                        {{ stuff.name }}
+                    {% endfor %}</span>
+
 
                   </li>
                   <li>
-{#                    <span class="icon icon-hand"></span>#}
-{#                    <span class="summary--text">Dla fundacji "Mam marzenie" w Warszawie</span>#}
+                    <span class="icon icon-hand"></span>
+                    <span class="summary--text">{{ institution.name }}</span>
                   </li>
                 </ul>
               </div>
@@ -17,19 +22,20 @@
                 <div class="form-section--column">
                   <h4>Adres odbioru:</h4>
                   <ul>
-                    <li>{{ street }}</li>
-                    <li>{{ city }}</li>
-                    <li>{{ post_code }}</li>
-                    <li>{{ phone }}</li>
+                    <li>Ulica: {{ street }}</li>
+                    <li>Misato: {{ city }}</li>
+                    <li>Kod pocztowy: {{ post_code }}</li>
+                    <li>Telefon: {{ phone }}</li>
                   </ul>
                 </div>
 
                 <div class="form-section--column">
                   <h4>Termin odbioru:</h4>
                   <ul>
-                    <li>{{ date}}</li>
-                    <li>{{ time}}</li>
-                    <li>{{ comments }}</li>
+                    <li>Data: {{ date}}</li>
+                    <li>Godzina: {{ time}}</li>
+                    <li>Uwagi dla kuriera:  </br>
+                        {{ comments }}</li>
                   </ul>
                 </div>
               </div>
