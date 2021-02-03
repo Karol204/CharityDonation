@@ -148,7 +148,8 @@
             <div class="form-group form-group--checkbox" id="show">
                 {% for institution in institutions %}
               <label>
-                <input type="radio" name="organization" value="old" id="chosen" data-id="{{ institution.id }}" data-text="{{ institution.name }}"/>
+                <input type="radio" name="organization" value="{{ institution.id }}" id="chosen" data-id="{{ institution.id }}" data-text="{{ institution.name }}"
+                />
                 <span class="checkbox radio"></span>
                 <span class="description">
                   <div class="title">{{ institution.name }}</div>
