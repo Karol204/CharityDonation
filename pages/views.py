@@ -88,6 +88,49 @@ class AddDonationPage(View):
         }
         return render(request, 'form.html', ctx)
 
+    def post(self, request):
+
+        new_array_for_stuff = []
+        stuff_id_arr = request.POST.get('stuff_id_arr')
+        print(stuff_id_arr)
+        separated_id = stuff_id_arr.split(',', )
+        for stuff in separated_id:
+            temporary_stuff = Category.objects.get(pk=stuff)
+            new_array_for_stuff.append(temporary_stuff)
+
+        bags_quantity = request.POST.get('bags_quantity')
+        inst = request.POST.get('institution')
+        institution = Institution.objects.get(pk=inst)
+        street = request.POST.get('street')
+        city = request.POST.get('city')
+        zip_code = request.POST.get('post_code')
+        phone = request.POST.get('phone')
+        date = request.POST.get('date')
+        time = request.POST.get('time')
+        comments = request.POST.get('comments')
+        if comments == '':
+            comments = 'Brak'
+
+        new_donation = Donation()
+
+        new_donation.institution = institution
+        new_donation.quantity = bags_quantity
+        new_donation.address = street
+        new_donation.phone_number = phone
+        new_donation.city = city
+        new_donation.pick_up_date = date
+        new_donation.zip_code = zip_code
+        new_donation.pick_up_time = time
+        new_donation.pick_up_comment = comments
+        new_donation.user = request.user
+        new_donation.save()
+
+        for i in range(len(new_array_for_stuff)):
+            new_donation.categories_of_items.add(new_array_for_stuff[i])
+            i += 1
+
+
+        return render(request, "form-confirmation.html")
 
 def get_inst_by_cat(request):
     cat_id = request.GET.get('cat_id')
@@ -98,7 +141,7 @@ def get_inst_by_cat(request):
         institutions = Institution.objects.filter(category_of_items=categories)
     return render(request, 'rest_list_view.html', {'institutions': institutions})
 
-def get_form_info(request):#
+def get_form_info(request):
 
     new_array_for_stuff = []
     stuff_id_arr = request.GET.get('stuff_id_arr')
