@@ -93,7 +93,7 @@
       <div class="form--steps-container">
         <div class="form--steps-counter">Krok <span>1</span>/5</div>
 
-        <form action="form-confirmation.html" method="post">
+        <form action="form-confirmation.html" method="post" id="form">
             {% csrf_token %}
           <!-- STEP 1: class .active is switching steps -->
           <div data-step="1" class="active">
@@ -129,7 +129,7 @@
             <div class="form-group form-group--inline">
               <label>
                 Liczba 60l worków:
-                <input type="number" name="bags" step="1" min="1" id="bags"/>
+                <input type="number" name="bags" step="1" min="1" id="bags" required/>
               </label>
             </div>
 
@@ -176,22 +176,22 @@
               <div class="form-section--column">
                 <h4>Adres odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Ulica <input type="text" name="address" id="address"/> </label>
+                  <label> Ulica <input type="text" name="address" id="address" required/> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Miasto <input type="text" name="city" id="city"/> </label>
+                  <label> Miasto <input type="text" name="city" id="city" required/> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Kod pocztowy <input type="text" name="postcode" id="postcode"/>
+                    Kod pocztowy <input type="text" name="postcode" id="postcode" required/>
                   </label>
                 </div>
 
                 <div class="form-group form-group--inline">
                   <label>
-                    Numer telefonu <input type="phone" name="phone" id="phone"/>
+                    Numer telefonu <input type="phone" name="phone" id="phone" required/>
                   </label>
                 </div>
               </div>
@@ -199,11 +199,11 @@
               <div class="form-section--column">
                 <h4>Termin odbioru</h4>
                 <div class="form-group form-group--inline">
-                  <label> Data <input type="date" name="data" id="date"/> </label>
+                  <label> Data <input type="date" name="data" id="date" required/> </label>
                 </div>
 
                 <div class="form-group form-group--inline">
-                  <label> Godzina <input type="time" name="time" id="time"/> </label>
+                  <label> Godzina <input type="time" name="time" id="time" required/> </label>
                 </div>
 
                 <div class="form-group form-group--inline">

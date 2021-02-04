@@ -3,17 +3,17 @@
                 <ul id="showend">
                   <li>
                       <span class="icon icon-bag"></span>
-                    <span class="summary--text">{{ bags_quantity }}
+                    <span class="summary--text">
                         {% for stuff in new_array_for_stuff %}
 
-                        {{ stuff.name }},
+                       <p id="item">{{ stuff.name }},</p>
                     {% endfor %}</span>
 
 
                   </li>
                   <li>
                       <span class="icon icon-hand"></span>
-                    <span class="summary--text">{{ institution.name }}</span>
+                    <span class="summary--text">Dla: {{ institution.name }}</span>
                   </li>
                 </ul>
               </div>
