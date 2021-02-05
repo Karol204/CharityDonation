@@ -9,5 +9,6 @@ urlpatterns = [
     path('addDonation/', AddDonationPage.as_view()),
     path('rest/get_inst/', views.get_inst_by_cat),
     path('rest/form_info/', views.get_form_info),
+    path('formConformation/', views.form_confirmation),
 
 ]

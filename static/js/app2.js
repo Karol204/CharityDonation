@@ -4,7 +4,9 @@ function toggle_class() {
 
     // zmienic z toggle na dodawanie w kliknietym miejscu i usuwanie w innym
 
-
+    document.querySelectorAll('.org').forEach((e)=>{
+        e.classList.remove('chosen_org')
+    })
     this.classList.toggle('chosen_org')
     console.log('dziala')
 }
@@ -46,6 +48,7 @@ function get_form_info() {
     let info = {"bags_quantity": bags_quantity, "street":street, "city":city, "post_code":post_code,
         "phone":phone, "date":date, "time":time, "comments":comments, "stuff_id_arr": stuff_id_arr,
         "institution": institution}
+
         $.get(page, info, function (info){
             $('#sum').html(info);
         })
@@ -76,9 +79,17 @@ function send_form_post() {
     let info = {"bags_quantity": bags_quantity, "street":street, "city":city, "post_code":post_code,
         "phone":phone, "date":date, "time":time, "comments":comments, "stuff_id_arr": stuff_id_arr,
         "institution": institution, csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value}
-        $.post(page, info, function (info){
+        if (bags_quantity === '' || street === '' || city === '' || post_code === '' || phone === '' || date === '' ||
+        time === '' || stuff_id_arr === '' || institution === '') {
+        alert('Sprawdz czy nie pominales zadnego pola')
+        } else {
+         $.post(page, info, function (info){
             $('#sum').html(info);
+            window.location.replace("/formConformation/")
+
         })
+    }
+
 
 }
 

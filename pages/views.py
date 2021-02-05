@@ -128,9 +128,7 @@ class AddDonationPage(View):
         for i in range(len(new_array_for_stuff)):
             new_donation.categories_of_items.add(new_array_for_stuff[i])
             i += 1
-
-
-        return render(request, "form-confirmation.html")
+        return redirect("/")
 
 def get_inst_by_cat(request):
     cat_id = request.GET.get('cat_id')
@@ -167,3 +165,5 @@ def get_form_info(request):
                                                    "comments":comments, 'institution': institution,
                                                    "new_array_for_stuff": new_array_for_stuff})
 
+def form_confirmation(request):
+    return render(request, 'form-confirmation.html')
