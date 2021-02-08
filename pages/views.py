@@ -71,9 +71,16 @@ class ProfilPage(View):
     def get(self, request):
         user_id = request.user.id
         profil = UserProfile.objects.filter(user_id=user_id)
-        context = {'profil': profil}
+        user_donations = Donation.objects.filter(user=user_id)
+        print(user_donations)
+        ctx = {
+            'profil': profil,
+            'user_donations': user_donations,
+        }
+
+
         if profil:
-            return render(request, 'profil.html', context)
+            return render(request, 'profil.html', ctx)
         else:
             return redirect('/profil/#form')
 

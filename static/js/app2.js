@@ -2,8 +2,6 @@
 
 function toggle_class() {
 
-    // zmienic z toggle na dodawanie w kliknietym miejscu i usuwanie w innym
-
     document.querySelectorAll('.org').forEach((e)=>{
         e.classList.remove('chosen_org')
     })
@@ -47,14 +45,17 @@ function get_form_info() {
         institution = inst.dataset.id;
     }
     let page = "/rest/form_info/";
-    console.log(institution)
     let info = {"bags_quantity": bags_quantity, "street":street, "city":city, "post_code":post_code,
         "phone":phone, "date":date, "time":time, "comments":comments, "stuff_id_arr": stuff_id_arr,
         "institution": institution}
-
-        $.get(page, info, function (info){
-            $('#sum').html(info);
-        })
+     if (bags_quantity === '' || street === '' || city === '' || post_code === '' || phone === '' || date === '' ||
+        time === '' || stuff_id_arr === '' || institution === '') {
+         alert('Wszystkie pola sa wymagane')
+     } else {
+         $.get(page, info, function (info) {
+             $('#sum').html(info);
+         })
+     }
 }
 
 function send_form_post() {
@@ -68,7 +69,6 @@ function send_form_post() {
         })
     }
     stuff_id_arr = stuff_id_arr.join()
-    console.log(stuff_id_arr)
     let street = document.getElementById("address").value;
     let city = document.getElementById("city").value;
     let post_code = document.getElementById("postcode").value;
@@ -89,11 +89,8 @@ function send_form_post() {
          $.post(page, info, function (info){
             $('#sum').html(info);
             window.location.replace("/formConformation/")
-
         })
     }
-
-
 }
 
 

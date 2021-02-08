@@ -3,10 +3,21 @@
 {% block content %}
 
     <h1 id="personal_data">Witaj na swoim profilu.</h1>
+
     <h2> Imie:
         {% for name in profil %}
             {{ name.first_name }}</h2>
 
     <h2> Nazwisko: {{ name.last_name }}</h2>
         {% endfor %}
+
+    <div class="donations ">
+            {% for donation in user_donations %}
+            <a href="#"><div class="single-donation">
+                <h3>{{ donation.pick_up_date }} - {{ donation.institution.name }}</h3>
+
+            </div></a>
+            {% endfor %}
+
+    </div>
 {% endblock content %}
