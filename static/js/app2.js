@@ -8,7 +8,6 @@ function toggle_class() {
         e.classList.remove('chosen_org')
     })
     this.classList.toggle('chosen_org')
-    console.log('dziala')
 }
 
 
@@ -42,7 +41,11 @@ function get_form_info() {
     let date = document.getElementById("date").value;
     let time = document.getElementById("time").value;
     let comments = document.getElementById("comments").value;
-    let institution = document.querySelector(".chosen_org").dataset.id;
+    let institution = 0
+    let inst = document.querySelector(".chosen_org")
+    if (inst) {
+        institution = inst.dataset.id;
+    }
     let page = "/rest/form_info/";
     console.log(institution)
     let info = {"bags_quantity": bags_quantity, "street":street, "city":city, "post_code":post_code,
@@ -92,7 +95,6 @@ function send_form_post() {
 
 
 }
-
 
 
 $(document).ready(function (){

@@ -3,6 +3,7 @@ from django.views import View
 from .models import Donation, Institution, UserProfile, Category
 from django.core.paginator import Paginator
 from pages.forms import UserProfilForm
+import datetime
 
 # Create your views here.
 
@@ -82,9 +83,13 @@ class AddDonationPage(View):
     def get(self, request):
         categories = Category.objects.all()
         institutions = Institution.objects.all()
+        min_date = datetime.date.today() + datetime.timedelta(days=1)
+        min_date = min_date.strftime("%Y-%m-%d")
+        print(min_date)
         ctx = {
             'categories': categories,
             'institutions': institutions,
+            'min_date': min_date,
         }
         return render(request, 'form.html', ctx)
 
@@ -92,7 +97,6 @@ class AddDonationPage(View):
 
         new_array_for_stuff = []
         stuff_id_arr = request.POST.get('stuff_id_arr')
-        print(stuff_id_arr)
         separated_id = stuff_id_arr.split(',', )
         for stuff in separated_id:
             temporary_stuff = Category.objects.get(pk=stuff)
