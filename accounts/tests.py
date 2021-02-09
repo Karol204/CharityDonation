@@ -3,7 +3,7 @@ from django.contrib.auth import get_user_model
 # Create your tests here.
 from django.urls import reverse, reverse_lazy
 
-from accounts.forms import CustomUserCreationForm
+from .forms import CustomUserCreationForm
 
 
 class CustomUserTest(TestCase):
@@ -53,9 +53,6 @@ class SignUpTest(TestCase):
         self.assertEqual(get_user_model().objects.all()[0].username, self.username)
         self.assertEqual(get_user_model().objects.all()[0].email, self.email)
 
-        form = self.response.context.get('form')
-        self.assertIsInstance(form, CustomUserCreationForm)
-        self.assertContains(self.response, 'csfrmiddlewaretoken')
 
 class LoginTest(TestCase):
 
