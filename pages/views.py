@@ -1,4 +1,8 @@
+from django.contrib.auth.decorators import login_required
+from django.core.mail import BadHeaderError, send_mail
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
+from django.utils.decorators import method_decorator
 from django.views import View
 from .models import Donation, Institution, UserProfile, Category
 from django.core.paginator import Paginator
@@ -17,27 +21,18 @@ class LandingView(View):
             bags_of_gifts = bags_of_gifts + quantity[i]
         all_supported_inst = len(Institution.objects.all())
 
-        # <-------- Paginacja fundacji ------->
+
         all_fund = Institution.objects.filter(type__icontains='Fundacja')
-        fund_paginator = Paginator(all_fund, 1)
 
-        fund_page = fund_paginator.get_page(1)
-
-        # <-------- Paginacja organizacji ------>
         all_org = Institution.objects.filter(type__icontains='Organizacja pozarządowoa')
-
-        org_paginator = Paginator(all_org, 1)
-
-        org_page_num = request.GET.get('org_page')
-        org_page = org_paginator.get_page(1)
 
         all_local_collection = Institution.objects.filter(type__icontains='Zbiórka lokalna')
 
         context = {
             'bags_of_gifts': bags_of_gifts,
             'all_supported_inst': all_supported_inst,
-            'fund_page': fund_page,
-            'org_page': org_page,
+            'fund_page': all_fund,
+            'org_page': all_org,
             'all_local_collection': all_local_collection
         }
 
@@ -78,13 +73,12 @@ class ProfilPage(View):
             'user_donations': user_donations,
         }
 
-
         if profil:
             return render(request, 'profil.html', ctx)
         else:
             return redirect('/profil/#form')
 
-
+@method_decorator(login_required, name='get')
 class AddDonationPage(View):
 
     def get(self, request):
@@ -99,6 +93,7 @@ class AddDonationPage(View):
             'min_date': min_date,
         }
         return render(request, 'form.html', ctx)
+
 
     def post(self, request):
 
@@ -178,3 +173,20 @@ def get_form_info(request):
 
 def form_confirmation(request):
     return render(request, 'form-confirmation.html')
+
+def contact_form(request):
+
+    if request.method == 'POST':
+        subject = 'E-mail'
+        name = request.POST.get('name')
+        surname = request.POST.get('surname')
+        email = request.POST.get('email')
+        message = request.POST.get('message')
+
+        mail = f'Od: {name} {surname} \n {message}  '
+
+        try:
+            send_mail(subject, mail, email, ['admin@email.com'])
+        except BadHeaderError:
+            return HttpResponse('invalid header found')
+        return redirect('/')

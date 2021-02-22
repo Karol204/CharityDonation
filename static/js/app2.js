@@ -21,7 +21,7 @@ function get_inst() {
 }
 
 
-function get_form_info() {
+function get_form_info(e) {
     let stuff_id_arr = []
     let bags_quantity = document.getElementById("bags").value;
     let stuff_id_node = document.querySelectorAll(".chosen_stuff");

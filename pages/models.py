@@ -30,7 +30,7 @@ class Donation(models.Model):
     address = models.CharField(max_length=126)
     phone_number = models.CharField(max_length=15)
     city = models.CharField(max_length=55)
-    zip_code = models.CharField(max_length=6)
+    zip_code = models.CharField(max_length=10)
     pick_up_date = models.DateField()
     pick_up_time = models.TimeField()
     pick_up_comment = models.CharField(max_length=250, null=True)
