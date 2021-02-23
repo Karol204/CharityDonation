@@ -1,4 +1,4 @@
-
+const cont = document.getElementById('cont')
 
 function toggle_class() {
 
@@ -8,7 +8,17 @@ function toggle_class() {
     this.classList.toggle('chosen_org')
 }
 
-
+function messageApear() {
+    const message = document.createElement('div')
+         const para = document.createElement('p')
+        message.classList.add('message')
+        para.innerText = 'Musisz uzupelnic wszystkie pola'
+         message.appendChild(para)
+        cont.appendChild(message)
+         setTimeout(() => {
+             message.remove()
+         }, 3000)
+}
 
 function get_inst() {
   var id = this.dataset.id;
@@ -50,7 +60,7 @@ function get_form_info(e) {
         "institution": institution}
      if (bags_quantity === '' || street === '' || city === '' || post_code === '' || phone === '' || date === '' ||
         time === '' || stuff_id_arr === '' || institution === '') {
-         alert('Wszystkie pola sa wymagane')
+         messageApear()
      } else {
          $.get(page, info, function (info) {
              $('#sum').html(info);
@@ -84,7 +94,7 @@ function send_form_post() {
         "institution": institution, csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value}
         if (bags_quantity === '' || street === '' || city === '' || post_code === '' || phone === '' || date === '' ||
         time === '' || stuff_id_arr === '' || institution === '') {
-        alert('Sprawdz czy nie pominales zadnego pola')
+            messageApear()
         } else {
          $.post(page, info, function (info){
             $('#sum').html(info);

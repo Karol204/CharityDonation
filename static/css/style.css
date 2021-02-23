@@ -1868,4 +1868,23 @@ footer .bottom-line--icons a img {
   font-size: 35px;
 }
 
+.message {
+  position: absolute;
+  top: 150vh;
+  right: 40vw;
+  z-index: 1;
+  width: 350px;
+  height: 200px;
+  background-color: rgba(255, 209, 82, 0.7);
+  border-radius: 5px;
+  font-size: 24px;
 
+}
+.message p {
+  margin: 0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+}
