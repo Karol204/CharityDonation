@@ -1,0 +1,1 @@
+web: gunicorn betterVersion.wsgi --log-file -

@@ -1878,7 +1878,7 @@ footer .bottom-line--icons a img {
   background-color: rgba(255, 209, 82, 0.7);
   border-radius: 5px;
   font-size: 24px;
-
+  transition: 0.3s;
 }
 .message p {
   margin: 0;
