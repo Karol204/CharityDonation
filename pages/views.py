@@ -1,11 +1,11 @@
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import BadHeaderError, send_mail
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.decorators import method_decorator
 from django.views import View
 from .models import Donation, Institution, UserProfile, Category
-from django.core.paginator import Paginator
 from pages.forms import UserProfilForm
 import datetime
 
@@ -14,44 +14,49 @@ import datetime
 class LandingView(View):
 
     def get(self, request):
-
+        
+        # Counter of all received gifts
         quantity = Donation.objects.values_list('quantity', flat=True)
         bags_of_gifts = 0
         for i in range(0, len(quantity)):
             bags_of_gifts = bags_of_gifts + quantity[i]
-        all_supported_inst = len(Institution.objects.all())
 
+        # Number of supported institution
+        allSupportedInstitution = len(Institution.objects.all())
 
         all_fund = Institution.objects.filter(type__icontains='Fundacja')
-
         all_org = Institution.objects.filter(type__icontains='Organizacja pozarządowoa')
-
         all_local_collection = Institution.objects.filter(type__icontains='Zbiórka lokalna')
 
         context = {
             'bags_of_gifts': bags_of_gifts,
-            'all_supported_inst': all_supported_inst,
+            'all_supported_inst': allSupportedInstitution,
             'fund_page': all_fund,
             'org_page': all_org,
             'all_local_collection': all_local_collection
         }
 
+        # Checking if user filled profile form
         if request.user.is_authenticated:
-            user_id = request.user.id
-            profil = UserProfile.objects.filter(user_id=user_id)
-            if profil:
+            userID = request.user.id
+            profile = UserProfile.objects.filter(user_id=userID)
+            if profile:
                 return render(request, 'home.html', context)
             else:
                 return redirect('/profil/#form')
         else:
             return render(request, 'home.html', context)
 
-class ProfilForm(View):
+
+
+
+class ProfilForm(LoginRequiredMixin, View):
 
     def get(self, request):
         form = UserProfilForm
-        context = { 'form':form}
+        context = {'form': form}
         return render(request, 'profilForm.html', context)
+
     def post(self, request):
         form = UserProfilForm(request.POST)
         if form.is_valid():
@@ -61,32 +66,30 @@ class ProfilForm(View):
             return redirect('home')
 
 
-class ProfilPage(View):
+class ProfilPage(LoginRequiredMixin, View):
 
     def get(self, request):
         user_id = request.user.id
         profil = UserProfile.objects.filter(user_id=user_id)
         user_donations = Donation.objects.filter(user=user_id)
-        print(user_donations)
         ctx = {
             'profil': profil,
             'user_donations': user_donations,
         }
-
         if profil:
             return render(request, 'profil.html', ctx)
         else:
             return redirect('/profil/#form')
 
-@method_decorator(login_required, name='get')
-class AddDonationPage(View):
+
+class AddDonationPage(LoginRequiredMixin, View):
 
     def get(self, request):
         categories = Category.objects.all()
         institutions = Institution.objects.all()
+        # Generate the earliest date for the form and pass it to widget in HTML
         min_date = datetime.date.today() + datetime.timedelta(days=1)
         min_date = min_date.strftime("%Y-%m-%d")
-        print(min_date)
         ctx = {
             'categories': categories,
             'institutions': institutions,
@@ -97,6 +100,7 @@ class AddDonationPage(View):
 
     def post(self, request):
 
+        # Get data from form
         new_array_for_stuff = []
         stuff_id_arr = request.POST.get('stuff_id_arr')
         separated_id = stuff_id_arr.split(',', )
@@ -117,6 +121,7 @@ class AddDonationPage(View):
         if comments == '':
             comments = 'Brak'
 
+        # Create new Donation object and add data to it
         new_donation = Donation()
 
         new_donation.institution = institution
@@ -136,7 +141,11 @@ class AddDonationPage(View):
             i += 1
         return redirect("/")
 
+
+
+@login_required()
 def get_inst_by_cat(request):
+    # Function for dynamic list of institution loaded in form
     cat_id = request.GET.get('cat_id')
     if cat_id is None:
         institutions = Institution.objects.all()
@@ -145,9 +154,11 @@ def get_inst_by_cat(request):
         institutions = Institution.objects.filter(category_of_items=categories)
     return render(request, 'rest_list_view.html', {'institutions': institutions})
 
+@login_required()
 def get_form_info(request):
-
+    # Loaded data passed by user in form and pass it to confirmation page
     new_array_for_stuff = []
+    # Creating array for all category of items
     stuff_id_arr = request.GET.get('stuff_id_arr')
     separated_id = stuff_id_arr.split(',', )
     for stuff in separated_id:
@@ -171,8 +182,10 @@ def get_form_info(request):
                                                    "comments":comments, 'institution': institution,
                                                    "new_array_for_stuff": new_array_for_stuff})
 
+@login_required()
 def form_confirmation(request):
     return render(request, 'form-confirmation.html')
+
 
 def contact_form(request):
 

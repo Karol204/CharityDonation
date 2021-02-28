@@ -1,13 +1,16 @@
 const cont = document.getElementById('cont')
 
-function toggle_class() {
 
+// Chosen organisation in donation form
+function toggle_class() {
     document.querySelectorAll('.org').forEach((e)=>{
         e.classList.remove('chosen_org')
     })
+
     this.classList.toggle('chosen_org')
 }
 
+// A message that appears after the field in the form is omitted
 function messageApear() {
     const message = document.createElement('div')
          const para = document.createElement('p')
@@ -20,6 +23,7 @@ function messageApear() {
          }, 3000)
 }
 
+// Dynamic loading of institutions, depending on the selected category
 function get_inst() {
   var id = this.dataset.id;
   this.classList.toggle('chosen_stuff')
@@ -30,7 +34,7 @@ function get_inst() {
   });
 }
 
-
+// Loading the entered data in the form confirmation
 function get_form_info(e) {
     let stuff_id_arr = []
     let bags_quantity = document.getElementById("bags").value;
@@ -68,6 +72,7 @@ function get_form_info(e) {
      }
 }
 
+// Sending form data to save in db
 function send_form_post() {
     let stuff_id_arr = []
     let bags_quantity = document.getElementById("bags").value;
