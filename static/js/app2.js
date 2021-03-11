@@ -93,7 +93,6 @@ function send_form_post() {
     let comments = document.getElementById("comments").value;
     let institution = document.querySelector(".chosen_org").dataset.id;
     let page = "/addDonation/";
-    console.log(institution)
     let info = {"bags_quantity": bags_quantity, "street":street, "city":city, "post_code":post_code,
         "phone":phone, "date":date, "time":time, "comments":comments, "stuff_id_arr": stuff_id_arr,
         "institution": institution, csrfmiddlewaretoken: document.getElementsByName('csrfmiddlewaretoken')[0].value}
@@ -103,8 +102,11 @@ function send_form_post() {
         } else {
          $.post(page, info, function (info){
             $('#sum').html(info);
-            window.location.replace("/formConformation/")
-        })
+        }).done(function(response) {
+        $("#result").text(response['errorMessage'])
+    }).fail(function (response) {
+        $("#result").text(response['errorMessage'])
+    })
     }
 }
 

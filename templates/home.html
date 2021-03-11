@@ -43,8 +43,11 @@
           <p>kurier przyjedzie w dogodnym terminie</p>
         </div>
       </div>
-
+    {% if request.user.is_authenticated %}
+        <a href="/addDonation" class="btn btn--large">Przekaz dary</a>
+    {% else %}
       <a href="{% url 'account_signup' %}#signup" class="btn btn--large">Załóż konto</a>
+    {% endif %}
     </section>
 
     <section id="about-us" class="about-us">

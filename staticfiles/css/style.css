@@ -12,6 +12,7 @@ html {
   /* 1 */
   -webkit-text-size-adjust: 100%;
   /* 2 */
+  scroll-behavior: smooth;
 }
 
 /* Sections
@@ -1887,4 +1888,10 @@ footer .bottom-line--icons a img {
   left: 50%;
   transform: translate(-50%, -50%);
 
+}
+
+@media screen and (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
 }

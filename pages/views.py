@@ -1,9 +1,8 @@
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import BadHeaderError, send_mail
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
-from django.utils.decorators import method_decorator
 from django.views import View
 from .models import Donation, Institution, UserProfile, Category
 from pages.forms import UserProfilForm
@@ -22,7 +21,7 @@ class LandingView(View):
             bags_of_gifts = bags_of_gifts + quantity[i]
 
         # Number of supported institution
-        allSupportedInstitution = len(Institution.objects.all())
+        all_supported_institution = len(Institution.objects.all())
 
         all_fund = Institution.objects.filter(type__icontains='Fundacja')
         all_org = Institution.objects.filter(type__icontains='Organizacja pozarządowoa')
@@ -30,7 +29,7 @@ class LandingView(View):
 
         context = {
             'bags_of_gifts': bags_of_gifts,
-            'all_supported_inst': allSupportedInstitution,
+            'all_supported_inst': all_supported_institution,
             'fund_page': all_fund,
             'org_page': all_org,
             'all_local_collection': all_local_collection
@@ -38,8 +37,8 @@ class LandingView(View):
 
         # Checking if user filled profile form
         if request.user.is_authenticated:
-            userID = request.user.id
-            profile = UserProfile.objects.filter(user_id=userID)
+            user_id = request.user.id
+            profile = UserProfile.objects.filter(user_id=user_id)
             if profile:
                 return render(request, 'home.html', context)
             else:
@@ -121,25 +120,37 @@ class AddDonationPage(LoginRequiredMixin, View):
         if comments == '':
             comments = 'Brak'
 
-        # Create new Donation object and add data to it
-        new_donation = Donation()
 
-        new_donation.institution = institution
-        new_donation.quantity = bags_quantity
-        new_donation.address = street
-        new_donation.phone_number = phone
-        new_donation.city = city
-        new_donation.pick_up_date = date
-        new_donation.zip_code = zip_code
-        new_donation.pick_up_time = time
-        new_donation.pick_up_comment = comments
-        new_donation.user = request.user
-        new_donation.save()
+        try:
+            # Create new Donation object and add data to it
+            new_donation = Donation()
 
-        for i in range(len(new_array_for_stuff)):
-            new_donation.categories_of_items.add(new_array_for_stuff[i])
-            i += 1
-        return redirect("/")
+            new_donation.institution = institution
+            new_donation.quantity = bags_quantity
+            new_donation.address = street
+            new_donation.phone_number = phone
+            new_donation.city = city
+            new_donation.pick_up_date = date
+            new_donation.zip_code = zip_code
+            new_donation.pick_up_time = time
+            new_donation.pick_up_comment = comments
+            new_donation.user = request.user
+            new_donation.save()
+
+            for i in range(len(new_array_for_stuff)):
+                new_donation.categories_of_items.add(new_array_for_stuff[i])
+                i += 1
+            ctx = {
+                'error': False,
+                'errorMessage': 'Successfully added'
+            }
+            return JsonResponse(ctx, safe=False)
+        except:
+            ctx = {
+                'error': True,
+                'errorMessage': 'Fail'
+            }
+            return JsonResponse(ctx, safe=False)
 
 
 

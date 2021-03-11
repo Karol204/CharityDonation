@@ -96,7 +96,7 @@ WSGI_APPLICATION = 'betterVersion.wsgi.application'
 #         'USER': 'postgres',
 #         'PASSWORD': 'coderslab',
 #         'HOST': 'localhost',
-#         'PORT': '5430'
+#         'PORT': '5432'
 #     }
 # }
 DATABASES = {'default': dj_database_url.config()}
